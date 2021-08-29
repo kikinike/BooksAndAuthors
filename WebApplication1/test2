@@ -1,0 +1,45 @@
+create table Author(
+	authorID serial primary key,
+	authorName varchar(200)
+);
+
+create table Book(
+	bookID serial primary key,
+	bookName varchar(200)
+);
+
+create table author_book(
+	authorID integer,
+	bookID integer,
+	constraint pk_author_book primary key (authorID, bookID)
+);
+
+insert into Author(AuthorName) values ('Grachev');
+insert into Author(AuthorName) values ('Voronin');
+
+insert into Book(BookName) values ('IT');
+insert into Book(BookName) values ('Science');
+insert into Book(BookName) values ('Physics');
+
+insert into author_book(authorID,bookID) values (1,1);
+insert into author_book(authorID,bookID) values (2,2);
+insert into author_book(authorID,bookID) values (2,3);
+
+
+select * from Author;
+select * from Book;
+select * from author_book;
+
+select Author.authorName as "Author", 
+count(*) AS "Number of written books"
+from Author
+Join author_book ON Author.authorID = author_book.authorID
+JOIN Book ON Book.bookID = author_book.bookID
+where Author.authorName = 'Voronin'
+GROUP BY  Author.authorName
+
+
+
+--drop table Author;
+--drop table Book;
+--drop table author_book;
